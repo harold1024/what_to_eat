@@ -1,86 +1,87 @@
-var mySwiper = new Swiper ('.swiper-container', {
-  // Optional parameters
-  loop: false,
-  effect:'coverflow',
-  followFinger:false,
-  
-  // Navigation arrows
-  // nextButton: '.swiperBtnNext',
-  direction: 'vertical'
-});    
+var mySwiper = new Swiper('.swiper-container', {
+    // Optional parameters
+    loop: false,
+    effect: 'coverflow',
+    followFinger: false,
 
-var isMobile = (function() { 
- if( navigator.userAgent.match(/Android/i)
- || navigator.userAgent.match(/webOS/i)
- || navigator.userAgent.match(/iPhone/i)
- || navigator.userAgent.match(/iPad/i)
- || navigator.userAgent.match(/iPod/i)
- || navigator.userAgent.match(/BlackBerry/i)
- || navigator.userAgent.match(/Windows Phone/i)
- ){
-    return true;
-  }
- else {
-    return false;
-  }
+    // Navigation arrows
+    // nextButton: '.swiperBtnNext',
+    direction: 'vertical'
+});
+
+var isMobile = (function() {
+    if (navigator.userAgent.match(/Android/i) ||
+        navigator.userAgent.match(/webOS/i) ||
+        navigator.userAgent.match(/iPhone/i) ||
+        navigator.userAgent.match(/iPad/i) ||
+        navigator.userAgent.match(/iPod/i) ||
+        navigator.userAgent.match(/BlackBerry/i) ||
+        navigator.userAgent.match(/Windows Phone/i)
+    ) {
+        return true;
+    } else {
+        return false;
+    }
 })();
-var event=isMobile?'touchend':'click';
-var foods = ['西红柿鸡蛋', '蒜薹炒肉', '宫保鸡丁', '醋溜土豆丝', '自助餐', '疙瘩汤', '驴肉火烧', '饺子', '馒头', '喝西北风', '豆角焖面', '面条', '炒饼'];
-var randEle=document.querySelector('.randFood');
+var event = isMobile ? 'touchend' : 'click';
+var foods = ['西红柿鸡蛋', '麻辣烫', '过桥米线', '宫保鸡丁', '醋溜土豆丝', '锅包肉', '自助餐', '烤肉', '烧烤', '疙瘩汤', '混沌', '驴肉火烧', '饺子', '馒头', '豆角焖面', '面条', '炒饼', '麻辣香锅', '酸菜鱼', '水煮鱼', '麻辣小龙虾', '炸鸡', '黄焖鸡米饭', '烤肉拌饭', '麻辣肉蟹煲', '熏肉卷饼', '凉皮', '肉夹馍', '喝西北风', '减肥吧'];
+var randEle = document.querySelector('.randFood');
 // var nextEle=document.querySelector(".actionBtn");
-var nextEle=document.querySelector('.swiperBtnNext');
-var emojEle=document.querySelector('.randomBlock .emoji');
-var randomTimer=0;
-var rainTimer=0;
-var emojs={
-	waiting:'images/fyh.jpg',
-	aha:'images/fyh_aha.jpg'
+var nextEle = document.querySelector('.swiperBtnNext');
+var emojEle = document.querySelector('.randomBlock .emoji');
+var randomTimer = 0;
+var rainTimer = 0;
+var emojs = {
+    waiting: 'images/fyh.jpg',
+    aha: 'images/fyh_aha.jpg'
 };
-mySwiper.on('slideChangeEnd', function (swiper) {
+mySwiper.on('slideChangeEnd', function(swiper) {
     console.log('slide change start');
     console.log(swiper);
-    if(!swiper.isBeginning){
-    	nextEle.style.display='none';
-    }else{
-    	nextEle.classList.remove('animated');
-    	nextEle.style.display='block';
+    if (!swiper.isBeginning) {
+        nextEle.style.display = 'none';
+    } else {
+        nextEle.classList.remove('animated');
+        nextEle.style.display = 'block';
     }
 });
 // nextEle.addEventListener(event,function(){
 // 	mySwiper.slideNext();
 // });
-document.querySelector('.pressBtn').addEventListener(event,function(evt){
-	var clicked=!!this.getAttribute('data-clicked');
-	if(clicked){
-		endRandom();
-		this.innerHTML='再来一发';
-		this.setAttribute('data-clicked','');
-	}else{
-		randEle.style.display='block';
-		playRandom();
-		this.innerHTML='暂停';
-		this.setAttribute('data-clicked','yes');
-	}
+document.querySelector('.pressBtn').addEventListener(event, function(evt) {
+    var clicked = !!this.getAttribute('data-clicked');
+    if (clicked) {
+        endRandom();
+        this.innerHTML = '再来一发';
+        this.setAttribute('data-clicked', '');
+    } else {
+        randEle.style.display = 'block';
+        playRandom();
+        this.innerHTML = '暂停';
+        this.setAttribute('data-clicked', 'yes');
+    }
 });
 
 
-function playRandom(){
-	emojEle.src=emojs.waiting;
-	rainTimer=setInterval(draw, 64);
-	randEle.classList.add('slideInDown');
-	randomTimer=setInterval(function(){
-		var food=getRandomFood();
-		randEle.innerHTML=food;
-	},80);
+function playRandom() {
+    emojEle.src = emojs.waiting;
+    rainTimer = setInterval(draw, 64);
+    randEle.classList.add('slideInDown');
+    randomTimer = setInterval(function() {
+        var food = getRandomFood();
+        randEle.innerHTML = food;
+    }, 80);
 }
-function endRandom(){
-	emojEle.src=emojs.aha;
-	clearInterval(randomTimer);
-	clearInterval(rainTimer);
+
+function endRandom() {
+    emojEle.src = emojs.aha;
+    clearInterval(randomTimer);
+    clearInterval(rainTimer);
 }
+
 function getRandomFood() {
-		var randIndex = Math.floor(Math.random() * (foods.length));
-		return foods[randIndex];
+    var randIndex = Math.floor(Math.random() * (foods.length));
+    return foods[randIndex];
 }
 
 
@@ -97,35 +98,35 @@ var font_size = 14;
 
 // see: http://blog.codepen.io/2013/07/29/full-screen-canvas/
 function resizeCanvas() {
-  cnvs.width = window.innerWidth;
-  setTimeout(function() {
-    cnvs.height = window.innerHeight;
-  }, 0);
+    cnvs.width = window.innerWidth;
+    setTimeout(function() {
+        cnvs.height = window.innerHeight;
+    }, 0);
 };
 window.onresize = resizeCanvas();
 resizeCanvas();
 
 
-var columns = cnvs.width/font_size;
+var columns = cnvs.width / font_size;
 var drops = [];
-for(var x=0;x<columns;x++){
-  drops[x]=1;
+for (var x = 0; x < columns; x++) {
+    drops[x] = 1;
 }
 
-function draw(){
-  ctx.fillStyle = 'rgba(246,247,215,0.05)';
-  ctx.fillRect(0,0,cnvs.width,cnvs.height);
-  //see: http://stackoverflow.com/a/5365036/2365376
-  ctx.fillStyle = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-  ctx.font = font_size + 'px helvetica';
-  
-  for(var i=0;i<drops.length;i++){
-    var txt = chars[Math.floor(Math.random()*chars.length)];
-    ctx.fillText(txt,i*font_size, drops[i]*font_size);
-    
-    if(drops[i]*font_size>cnvs.height&&Math.random()>0.975){
-      drops[i] = 0; // back to the top!   
+function draw() {
+    ctx.fillStyle = 'rgba(246,247,215,0.05)';
+    ctx.fillRect(0, 0, cnvs.width, cnvs.height);
+    //see: http://stackoverflow.com/a/5365036/2365376
+    ctx.fillStyle = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+    ctx.font = font_size + 'px helvetica';
+
+    for (var i = 0; i < drops.length; i++) {
+        var txt = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(txt, i * font_size, drops[i] * font_size);
+
+        if (drops[i] * font_size > cnvs.height && Math.random() > 0.975) {
+            drops[i] = 0; // back to the top!   
+        }
+        drops[i]++;
     }
-    drops[i]++;
-  }
 }
